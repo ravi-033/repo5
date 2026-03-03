@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Git-checkout') {
+            steps {
+                echo 'Cloning repo'
+				checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/prudhvisurya123/JavaWebCalculator.git']])
+            }
+		}
+		stage('validate') {
+            steps {
+                echo 'running mvn validate'
+				sh 'mvn validate'  
+		    }
+		}
+		stage('compile') {
+            steps {
+                echo 'running mvn compile'
+				sh 'mvn compile'  
+		    }
+		}
+		stage('test') {
+            steps {
+                echo 'running mvn test'
+				sh 'mvn test'  
+		    }
+		}
+		stage('package') {
+            steps {
+                echo 'running mvn pack'
+				sh 'mvn package'  
+		    }
+		}
+    }
+}	
